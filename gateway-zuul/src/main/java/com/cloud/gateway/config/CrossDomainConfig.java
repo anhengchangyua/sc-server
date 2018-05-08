@@ -9,7 +9,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * 跨域配置
  *
- * @author jh
+ *  @author
  */
 @Configuration
 public class CrossDomainConfig {

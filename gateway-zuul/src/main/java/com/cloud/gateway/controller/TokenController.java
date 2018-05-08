@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 登陆、刷新token、退出
  * 
- * @author jh
+ *  @author
  *
  */
 @Slf4j

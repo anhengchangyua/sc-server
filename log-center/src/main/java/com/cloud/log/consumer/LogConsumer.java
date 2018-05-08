@@ -14,7 +14,7 @@ import com.cloud.model.log.constants.LogQueue;
 /**
  * 消费日志
  * 
- * @author jh
+ *  @author
  *
  */
 @Component

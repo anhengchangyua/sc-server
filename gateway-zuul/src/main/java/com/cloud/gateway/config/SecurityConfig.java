@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * spring security配置
  * 
- * @author jh
+ *  @author
  * 
  */
 @EnableOAuth2Sso

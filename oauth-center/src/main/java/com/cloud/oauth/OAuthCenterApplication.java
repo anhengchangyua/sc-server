@@ -8,7 +8,7 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 /**
  * 认证中心
  * 
- * @author jh xiaoweijiagou@163.com
+ *  @author  xiaoweijiagou@163.com
  *
  */
 @EnableFeignClients

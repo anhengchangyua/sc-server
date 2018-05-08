@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * 使系统加载jar包外的文件
  * 
- * @author jh
+ *  @author
  *
  */
 @Configuration

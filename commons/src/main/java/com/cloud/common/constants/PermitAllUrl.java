@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 需要放开权限的url
  *
- * @author jh
+ *  @author
  */
 public final class PermitAllUrl {
 

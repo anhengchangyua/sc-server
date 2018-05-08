@@ -16,7 +16,7 @@ import com.cloud.file.service.FileService;
  * FileService工厂<br>
  * 将各个实现类放入map
  * 
- * @author jh
+ *  @author
  *
  */
 @Configuration

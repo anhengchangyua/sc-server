@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * 日志注解
- * 
- * @author jh
  *
  */
 @Target({ ElementType.METHOD })

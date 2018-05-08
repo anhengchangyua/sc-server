@@ -16,7 +16,7 @@ import com.cloud.common.constants.PermitAllUrl;
 /**
  * spring security配置
  * 
- * @author jh
+ *  @author
  * 
  */
 @EnableWebSecurity

@@ -30,7 +30,7 @@ import com.cloud.oauth.service.impl.RedisAuthorizationCodeServices;
 /**
  * 授权服务器配置
  * 
- * @author jh
+ *  @author
  *
  */
 @Configuration

@@ -12,7 +12,7 @@ import com.cloud.model.user.SysRole;
 /**
  * 用户角色关系
  * 
- * @author jh
+ *  @author
  *
  */
 @Mapper

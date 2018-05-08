@@ -9,7 +9,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 /**
  * 线程池配置、启用异步
  * 
- * @author jh
+ *  @author
  *
  */
 @EnableAsync(proxyTargetClass = true)

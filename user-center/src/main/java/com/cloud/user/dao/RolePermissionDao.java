@@ -11,7 +11,7 @@ import com.cloud.model.user.SysPermission;
 /**
  * 角色权限关系
  * 
- * @author jh
+ *  @author
  *
  */
 @Mapper

@@ -9,7 +9,7 @@ import com.cloud.model.log.constants.LogQueue;
 /**
  * rabbitmq配置
  * 
- * @author jh
+ *  @author
  *
  */
 @Configuration

@@ -3,7 +3,7 @@ package com.cloud.model.user.constants;
 /**
  * 用户类型
  * 
- * @author jh
+ *  @author
  *
  */
 public enum UserType {

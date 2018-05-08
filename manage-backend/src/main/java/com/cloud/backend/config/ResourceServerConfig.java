@@ -13,7 +13,7 @@ import com.cloud.common.constants.PermitAllUrl;
 /**
  * 资源服务配置
  *
- * @author jh
+ *  @author
  */
 @EnableResourceServer
 @EnableWebSecurity
