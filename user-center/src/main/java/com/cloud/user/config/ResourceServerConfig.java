@@ -18,9 +18,10 @@ import com.cloud.common.constants.PermitAllUrl;
  *  @author
  *
  */
+//配置资源服务器
 @EnableResourceServer
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)//开启权限注解
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Override
@@ -32,6 +33,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.anyRequest().authenticated().and().httpBasic();
 	}
 
+	//添加用户是密码加密
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();

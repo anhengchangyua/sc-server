@@ -27,157 +27,158 @@ import com.cloud.user.service.AppUserService;
 @RestController
 public class UserController {
 
-	@Autowired
-	private AppUserService appUserService;
+    @Autowired
+    private AppUserService appUserService;
 
-	/**
-	 * 当前登录用户 LoginAppUser
-	 * 
-	 * @return
-	 */
-	@GetMapping("/users/current")
-	public LoginAppUser getLoginAppUser() {
-		return AppUserUtil.getLoginAppUser();
-	}
+    /**
+     * 当前登录用户 LoginAppUser
+     *
+     * @return
+     */
+    @GetMapping("/users/current")
+    public LoginAppUser getLoginAppUser() {
+        return AppUserUtil.getLoginAppUser();
+    }
 
-	@GetMapping(value = "/users-anon/internal", params = "username")
-	public LoginAppUser findByUsername(String username) {
-		return appUserService.findByUsername(username);
-	}
+    //登录时用到的
+    @GetMapping(value = "/users-anon/internal", params = "username")
+    public LoginAppUser findByUsername(String username) {
+        return appUserService.findByUsername(username);
+    }
 
-	/**
-	 * 用户查询
-	 * 
-	 * @param params
-	 * @return
-	 */
-	@PreAuthorize("hasAuthority('back:user:query')")
-	@GetMapping("/users")
-	public Page<AppUser> findUsers(@RequestParam Map<String, Object> params) {
-		return appUserService.findUsers(params);
-	}
+    /**
+     * 用户查询
+     *
+     * @param params
+     * @return
+     */
+    @PreAuthorize("hasAuthority('back:user:query')")
+    @GetMapping("/users")
+    public Page<AppUser> findUsers(@RequestParam Map<String, Object> params) {
+        return appUserService.findUsers(params);
+    }
 
-	@PreAuthorize("hasAuthority('back:user:query')")
-	@GetMapping("/users/{id}")
-	public AppUser findUserById(@PathVariable Long id) {
-		return appUserService.findById(id);
-	}
+    @PreAuthorize("hasAuthority('back:user:query')")
+    @GetMapping("/users/{id}")
+    public AppUser findUserById(@PathVariable Long id) {
+        return appUserService.findById(id);
+    }
 
-	/**
-	 * 添加用户
-	 * 
-	 * @param appUser
-	 * @return
-	 */
-	@PostMapping("/users-anon/register")
-	public AppUser register(@RequestBody AppUser appUser) {
-		if (StringUtils.isBlank(appUser.getUsername())) {
-			throw new IllegalArgumentException("用户名不能为空");
-		}
+    /**
+     * 添加用户
+     *
+     * @param appUser
+     * @return
+     */
+    @PostMapping("/users-anon/register")
+    public AppUser register(@RequestBody AppUser appUser) {
+        if (StringUtils.isBlank(appUser.getUsername())) {
+            throw new IllegalArgumentException("用户名不能为空");
+        }
 
-		if (StringUtils.isBlank(appUser.getPassword())) {
-			throw new IllegalArgumentException("密码不能为空");
-		}
+        if (StringUtils.isBlank(appUser.getPassword())) {
+            throw new IllegalArgumentException("密码不能为空");
+        }
 
-		if (StringUtils.isBlank(appUser.getNickname())) {
-			appUser.setNickname(appUser.getUsername());
-		}
+        if (StringUtils.isBlank(appUser.getNickname())) {
+            appUser.setNickname(appUser.getUsername());
+        }
 
-		if (StringUtils.isBlank(appUser.getType())) {
-			appUser.setType(UserType.APP.name());
-		}
+        if (StringUtils.isBlank(appUser.getType())) {
+            appUser.setType(UserType.APP.name());
+        }
 
-		appUserService.addAppUser(appUser);
+        appUserService.addAppUser(appUser);
 
-		return appUser;
-	}
+        return appUser;
+    }
 
-	/**
-	 * 修改自己的个人信息
-	 * 
-	 * @param appUser
-	 * @return
-	 */
-	@LogAnnotation(module = LogModule.UPDATE_ME)
-	@PutMapping("/users/me")
-	public AppUser updateMe(@RequestBody AppUser appUser) {
-		AppUser user = AppUserUtil.getLoginAppUser();
-		appUser.setId(user.getId());
-		appUser.setEnabled(user.isEnabled());
+    /**
+     * 修改自己的个人信息
+     *
+     * @param appUser
+     * @return
+     */
+    @LogAnnotation(module = LogModule.UPDATE_ME)
+    @PutMapping("/users/me")
+    public AppUser updateMe(@RequestBody AppUser appUser) {
+        AppUser user = AppUserUtil.getLoginAppUser();
+        appUser.setId(user.getId());
+        appUser.setEnabled(user.isEnabled());
 
-		appUserService.updateAppUser(appUser);
+        appUserService.updateAppUser(appUser);
 
-		return appUser;
-	}
+        return appUser;
+    }
 
-	/**
-	 * 修改密码
-	 * 
-	 * @param oldPassword
-	 * @param newPassword
-	 */
-	@LogAnnotation(module = LogModule.UPDATE_PASSWORD)
-	@PutMapping(value = "/users/password", params = { "oldPassword", "newPassword" })
-	public void updatePassword(String oldPassword, String newPassword) {
-		if (StringUtils.isBlank(oldPassword)) {
-			throw new IllegalArgumentException("旧密码不能为空");
-		}
-		if (StringUtils.isBlank(newPassword)) {
-			throw new IllegalArgumentException("新密码不能为空");
-		}
+    /**
+     * 修改密码
+     *
+     * @param oldPassword
+     * @param newPassword
+     */
+    @LogAnnotation(module = LogModule.UPDATE_PASSWORD)
+    @PutMapping(value = "/users/password", params = {"oldPassword", "newPassword"})
+    public void updatePassword(String oldPassword, String newPassword) {
+        if (StringUtils.isBlank(oldPassword)) {
+            throw new IllegalArgumentException("旧密码不能为空");
+        }
+        if (StringUtils.isBlank(newPassword)) {
+            throw new IllegalArgumentException("新密码不能为空");
+        }
 
-		AppUser user = AppUserUtil.getLoginAppUser();
-		appUserService.updatePassword(user.getId(), oldPassword, newPassword);
-	}
+        AppUser user = AppUserUtil.getLoginAppUser();
+        appUserService.updatePassword(user.getId(), oldPassword, newPassword);
+    }
 
-	/**
-	 * 管理后台，给用户重置密码
-	 * 
-	 * @param id
-	 * @param newPassword
-	 */
-	@LogAnnotation(module = LogModule.RESET_PASSWORD)
-	@PreAuthorize("hasAuthority('back:user:password')")
-	@PutMapping(value = "/users/{id}/password", params = { "newPassword" })
-	public void resetPassword(@PathVariable Long id, String newPassword) {
-		appUserService.updatePassword(id, null, newPassword);
-	}
+    /**
+     * 管理后台，给用户重置密码
+     *
+     * @param id
+     * @param newPassword
+     */
+    @LogAnnotation(module = LogModule.RESET_PASSWORD)
+    @PreAuthorize("hasAuthority('back:user:password')")
+    @PutMapping(value = "/users/{id}/password", params = {"newPassword"})
+    public void resetPassword(@PathVariable Long id, String newPassword) {
+        appUserService.updatePassword(id, null, newPassword);
+    }
 
-	/**
-	 * 管理后台修改用户
-	 * 
-	 * @param appUser
-	 */
-	@LogAnnotation(module = LogModule.UPDATE_USER)
-	@PreAuthorize("hasAuthority('back:user:update')")
-	@PutMapping("/users")
-	public void updateAppUser(@RequestBody AppUser appUser) {
-		appUserService.updateAppUser(appUser);
-	}
+    /**
+     * 管理后台修改用户
+     *
+     * @param appUser
+     */
+    @LogAnnotation(module = LogModule.UPDATE_USER)
+    @PreAuthorize("hasAuthority('back:user:update')")
+    @PutMapping("/users")
+    public void updateAppUser(@RequestBody AppUser appUser) {
+        appUserService.updateAppUser(appUser);
+    }
 
-	/**
-	 * 管理后台给用户分配角色
-	 * 
-	 * @param id
-	 * @param roleIds
-	 */
-	@LogAnnotation(module = LogModule.SET_ROLE)
-	@PreAuthorize("hasAuthority('back:user:role:set')")
-	@PostMapping("/users/{id}/roles")
-	public void setRoleToUser(@PathVariable Long id, @RequestBody Set<Long> roleIds) {
-		appUserService.setRoleToUser(id, roleIds);
-	}
+    /**
+     * 管理后台给用户分配角色
+     *
+     * @param id
+     * @param roleIds
+     */
+    @LogAnnotation(module = LogModule.SET_ROLE)
+    @PreAuthorize("hasAuthority('back:user:role:set')")
+    @PostMapping("/users/{id}/roles")
+    public void setRoleToUser(@PathVariable Long id, @RequestBody Set<Long> roleIds) {
+        appUserService.setRoleToUser(id, roleIds);
+    }
 
-	/**
-	 * 获取用户的角色
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	@PreAuthorize("hasAnyAuthority('back:user:role:set','user:role:byuid')")
-	@GetMapping("/users/{id}/roles")
-	public Set<SysRole> findRolesByUserId(@PathVariable Long id) {
-		return appUserService.findRolesByUserId(id);
-	}
+    /**
+     * 获取用户的角色
+     *
+     * @param userId
+     * @return
+     */
+    @PreAuthorize("hasAnyAuthority('back:user:role:set','user:role:byuid')")
+    @GetMapping("/users/{id}/roles")
+    public Set<SysRole> findRolesByUserId(@PathVariable Long id) {
+        return appUserService.findRolesByUserId(id);
+    }
 
 }
